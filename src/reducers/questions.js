@@ -12,7 +12,6 @@ export default function questions (state = {}, action) {
 
     case ANSWER_QUESTION :
       const {qid,uid,answer} = action
-      console.log(uid)
       return {
         ...state,
         [qid] : {
