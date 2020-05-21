@@ -8,6 +8,7 @@ class Login extends React.Component
     onselect = (id) =>
     { 
         this.props.dispatch(setAuthedUser(id))
+        this.props.changeType('unanswered')
         this.props.history.push(`/`)
     }
     render()
@@ -27,9 +28,10 @@ class Login extends React.Component
     }
 }
 
-function mapStateToProps ({users }) {
+function mapStateToProps ({users } ,{changeType}) {
        return {
-         users : Object.keys(users).map((key) => users[key])
+         users : Object.keys(users).map((key) => users[key]),
+         changeType
        }
      }
 

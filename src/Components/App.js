@@ -21,7 +21,7 @@ class App extends Component
   {
     this.setState({type})
   }
-  
+
   componentDidMount() {   
     const AUTHED_ID=''
     this.props.dispatch(handleInitialData(AUTHED_ID))
@@ -38,7 +38,7 @@ class App extends Component
         ? null
         : 
         <div>
-        <Route path='/login'  component={Login}/>  
+        <Route path='/login'  component={() => <Login changeType={this.changeType} />}/>  
         <Route path='/' exact component={()=> <Dashboard changeType={this.changeType} type={this.state.type}/>}/>
         <Route path='/question/:id'  component={Question}/>
         <Route path='/leaderboard'   component={Leaderboard}/>
