@@ -5,8 +5,13 @@ class Question extends React.Component
 {
     render()
     {
-        const {question,author,user} =this.props
-        if(!question)
+        const {authedUser,question,author,user} =this.props
+        
+        if(authedUser===null || authedUser === '' )
+       {
+      return <div>You must be a logged as a user</div>
+      }
+        else if(!question)
         {
             return(<div>404 Error - question not found</div>)
         }
@@ -40,9 +45,17 @@ class Question extends React.Component
 }
 
 function mapStateToProps ({authedUser,users, questions}, props) {
+
+  if(authedUser === '')
+    {
+      return {
+        authedUser
+        }
+    }
  const { id } = props.match.params
   const question = questions[id] 
     return {
+      authedUser,
       user:users[authedUser],
       question,
       author: question ? users[question.author] : null

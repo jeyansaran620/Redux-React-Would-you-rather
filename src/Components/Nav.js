@@ -12,35 +12,38 @@ import { setAuthedUser } from '../actions/authedUser'
    logout =() =>
    {  
     this.props.dispatch(setAuthedUser(''))
-    this.props.history.push(`/`)
+    this.props.history.push(`/login`)
    }
    render()
    {
   return (
     <nav className='nav'>
-      {
-        this.props.authedUser !== '' &&
         <ul>
         <li> 
-        <div className='clk' onClick={() => this.handleClick('answered')}>Answered</div>
-        </li>
-        <li>
-        <div className='clk' onClick={() => this.handleClick('unanswered')}>Unanswered</div>
+        <div className='clk' onClick={() => this.handleClick('')}>Home</div>
         </li>
         <li>
         <div className='clk' onClick={() => this.handleClick('new')}>New Question</div>
         </li>
         <li>
         <div className='clk' onClick={() => this.handleClick('leaderboard')}>Leader board</div>
-        </li>
+        </li>   
+        {
+        this.props.authedUser === '' ? 
         <li>
+        <div className='clk' onClick={() => this.handleClick('login')}>Login</div>
+        </li> :<li>
         <div className='clk' onClick={() => this.logout()}>Logout</div>
         </li>
+        }
+        {
+        this.props.authedUser === '' ? 
+        null :
         <li>
-        <div>{this.props.authedUser}</div>
+         <div>{this.props.authedUser}</div>
         </li>
+        }
       </ul>
-      }   
     </nav>
   )
 }

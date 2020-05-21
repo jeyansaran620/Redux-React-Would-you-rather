@@ -6,8 +6,10 @@ import { withRouter } from 'react-router-dom';
 
 class Dashboard extends Component
 {
+ 
   handleSelect = (qid,option) =>
   {
+    this.props.changeType('answered')
     this.props.dispatch(handleSaveQuestionAnswer(qid,option));
     this.props.history.push(`/question/${qid}`)
   }
@@ -16,11 +18,30 @@ class Dashboard extends Component
   {
     this.props.history.push(`/question/${id}`)
   }
+ 
   render()
   {
-    const {questions,questionIds,user} =this.props
+    const {authedUser,questions,user,users,type,changeType} =this.props
+
+    if(authedUser===null || authedUser === '' )
+    {
+      return <div>You must be a logged as a user</div>
+    }
+
+  const  questionIds = ( type === 'answered') ? Object.keys(questions).filter((key) => key in users[authedUser].answers).sort((a,b) => questions[b].timestamp - questions[a].timestamp) :
+  Object.keys(questions).filter((key) => !(key in users[authedUser].answers)).sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+
     return (
-      <div> {this.props.type === 'answered' ? 
+      <div> 
+    <div className='options'>
+    <div className={`option ${type === 'answered' ? 'selected' : 'unselected'}`} 
+    onClick={() => changeType('answered')}>
+      Answered</div>   
+    <div className={`option ${type === 'unanswered' ? 'selected' : 'unselected'}`}
+     onClick={() => changeType('unanswered')}>
+      Unanswered</div>
+    </div>
+        {type === 'answered' ? 
       <div>
       {questionIds.map((id) => (
      <div key={id} className='question-box clk'  onClick={() => this.changeRoute(id)}>
@@ -48,18 +69,25 @@ class Dashboard extends Component
       
       </div>
     )
-  }
+      }
 }
 
-function mapStateToProps ({authedUser,users,questions}, { type }) {
+function mapStateToProps ({authedUser,users,questions},{type,changeType}) {
  
-  const  questionIds = (type === 'answered') ? Object.keys(questions).filter((key) => key in users[authedUser].answers).sort((a,b) => questions[b].timestamp - questions[a].timestamp) :
-  Object.keys(questions).filter((key) => !(key in users[authedUser].answers)).sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+  if(authedUser === '')
+    {
+      return {
+        authedUser
+        }
+    }
 
   return {
-    questionIds,
+    authedUser,
+    type,
+    changeType,
     questions,
-    user:users[authedUser]
+    user:users[authedUser],  
+    users
   }
 }
 

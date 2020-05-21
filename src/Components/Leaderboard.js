@@ -6,7 +6,11 @@ class Leaderboard extends React.Component
 {
     render()
     {
-        const {users,usersId} = this.props
+        const {authedUser,users,usersId} = this.props
+        if(authedUser === '')
+        {
+          return <div>You must be a logged as a user</div>
+        }
         return (
             <div className='leader-board'>
                <h2>Leader board</h2>
@@ -24,7 +28,13 @@ class Leaderboard extends React.Component
     }
 }
 
-function mapStateToProps ({users }) {
+function mapStateToProps ({authedUser,users }) {
+  if(authedUser === '')
+  {
+    return {
+      authedUser
+      }
+  }
     return {  
       users,
       usersId : Object.keys(users).map((key) => key).sort((a,b) => (Object.keys(users[b].answers).length + users[b].questions.length) - (Object.keys(users[a].answers).length + users[a].questions.length))

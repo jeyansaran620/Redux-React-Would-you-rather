@@ -8,7 +8,7 @@ class Login extends React.Component
     onselect = (id) =>
     { 
         this.props.dispatch(setAuthedUser(id))
-        this.props.history.push(`/unanswered`)
+        this.props.history.push(`/`)
     }
     render()
     {

@@ -13,7 +13,15 @@ import Leaderboard from './Leaderboard'
 
 class App extends Component
 {
- 
+  state = {
+    type:'unanswered'
+  }
+
+  changeType =(type) =>
+  {
+    this.setState({type})
+  }
+  
   componentDidMount() {   
     const AUTHED_ID=''
     this.props.dispatch(handleInitialData(AUTHED_ID))
@@ -30,15 +38,11 @@ class App extends Component
         ? null
         : 
         <div>
-        {this.props.authedUser === '' ? 
-        <Route path='/'  component={Login}/> :
-        <div>
-        <Route path='/answered'  component={() => <Dashboard type={'answered'}/>}/>
-        <Route path='/unanswered'  component={() => <Dashboard type={'unanswered'}/>}/>
-        <Route path='/question/:id'   component={Question}/>
+        <Route path='/login'  component={Login}/>  
+        <Route path='/' exact component={()=> <Dashboard changeType={this.changeType} type={this.state.type}/>}/>
+        <Route path='/question/:id'  component={Question}/>
         <Route path='/leaderboard'   component={Leaderboard}/>
-        <Route path='/new'   component={NewQuestion}/></div>
-  }
+        <Route path='/new'   component={NewQuestion}/>
         </div>
         }</Fragment>
         </Router>

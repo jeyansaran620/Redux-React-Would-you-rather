@@ -25,12 +25,17 @@ class NewQuestion extends React.Component
        if (this.state.optionOne.length >0 && this.state.optionTwo.length >0)
        {
         this.props.dispatch(handleAddQuestion(this.state.optionOne,this.state.optionTwo));
-        this.props.history.push(`/unanswered`)
+        this.props.history.push(`/`)
        }
    }
     render()
     {
-        const {user} = this.props
+        const {authedUser,user} = this.props
+        
+    if(authedUser === '')
+    {
+      return <div>You must be a logged as a user</div>
+    }
         return(
         <div>
        <div className='question-box'>   
@@ -53,6 +58,12 @@ class NewQuestion extends React.Component
 
 function mapStateToProps ({authedUser,users}) {
 
+    if(authedUser === '')
+    {
+      return {
+        authedUser
+        }
+    }
        return {
          user:users[authedUser]
        }
