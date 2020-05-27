@@ -2,7 +2,7 @@ Project : Would you Rather
   
    In this site the users can choose between the existing accounts and start polling.
    They can poll the questions previously asked by the users and they can also ask a new poll.
-   In the poll there asre two option with which we can vote for on eof them.
+   In the poll there asre two option with which we can vote for one of them.
    
 Architechture:
 
